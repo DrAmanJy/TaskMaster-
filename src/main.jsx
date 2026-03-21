@@ -3,11 +3,18 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import "./index.css";
 import routes from "./routes.jsx";
+import { ThemeProvider } from "./components/theme-provider";
+import TaskProvider from "./context/TaskContext";
+import DashboardPage from "./pages/DashboardPage";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <main className=" dark:bg-black dark:text-white min-h-screen">
-      <RouterProvider router={routes} />
-    </main>
+    <TaskProvider>
+      <ThemeProvider defaultTheme="system" storageKey="shadcn-ui-theme">
+        <main className="min-h-screen bg-background text-foreground">
+          <DashboardPage />
+        </main>
+      </ThemeProvider>
+    </TaskProvider>
   </StrictMode>,
 );
