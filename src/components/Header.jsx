@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { TaskFormModal } from "./TaskFormModal";
 import { Button } from "./ui/button";
 import { ListTodo, Search } from "lucide-react";
 import { Input } from "./ui/input";
+import { useTask } from "@/context/TaskContext";
 
 const Header = ({ length = 0 }) => {
   return (
@@ -34,11 +35,28 @@ const Header = ({ length = 0 }) => {
 export default Header;
 
 const SearchInput = () => {
+  const [search, setSearch] = useState("");
+  const { handleSearchTask } = useTask();
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    const timeout = setTimeout(() => {
+      handleSearchTask(search);
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [search, handleSearchTask]);
   return (
     <div className="relative">
       <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
       <Input
         type="search"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
         placeholder="Search tasks..."
         className="w-full pl-9 md:w-[250px] bg-background"
       />
