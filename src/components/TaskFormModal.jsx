@@ -54,7 +54,6 @@ export function TaskFormModal({
   });
 
   const onSubmit = async (data) => {
-    console.log(data)
     try {
       if (mode === "create") await handleAddTask(data);
       if (mode === "edit" && task) await handleUpdateTask(task.id, data);

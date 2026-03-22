@@ -17,7 +17,6 @@ export const DeleteTaskDialog = ({
   trigger,
   task: { title = "this task", id },
 }) => {
-  console.log("rendring");
   const [isDeleting, setIsDeleting] = useState(false);
   const closeRef = useRef(null);
   const { handleDeleteTask } = useTask();
