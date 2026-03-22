@@ -48,12 +48,25 @@ const loadTasksFromLocal = () => {
 };
 
 export const getTasks = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 100));
+  await new Promise((resolve) => setTimeout(resolve, 500));
   return loadTasksFromLocal();
 };
 
+export const searchTasks = async (q) => {
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
+  const tasks = loadTasksFromLocal();
+  if (!q || q.trim() === "") return tasks;
+  const query = q.toLowerCase().trim();
+  return tasks.filter(
+    (task) =>
+      task.title?.toLowerCase().includes(query) ||
+      task.description?.toLowerCase().includes(query),
+  );
+};
+
 export const addTask = async (newTask) => {
-  await new Promise((resolve) => setTimeout(resolve, 100));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const tasks = loadTasksFromLocal();
   const taskWithId = { ...newTask, id: Date.now() };
@@ -75,7 +88,7 @@ export const updateTask = async (taskId, updatedData) => {
 };
 
 export const deleteTask = async (taskId) => {
-  await new Promise((resolve) => setTimeout(resolve, 100));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 
   const tasks = loadTasksFromLocal();
   const filteredTasks = tasks.filter((t) => t.id !== taskId);

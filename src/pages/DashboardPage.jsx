@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 
 import {
   Tabs,
@@ -11,10 +11,11 @@ import { useTask } from "@/context/TaskContext";
 import TaskCard from "@/components/TaskCard.jsx";
 import Header from "@/components/Header";
 import TaskQuickStats from "@/components/TaskQuickStats";
+import { TaskListSkeleton } from "@/components/TaskListSkeleton";
 
 export default function DashboardPage() {
   const [_, setActiveTab] = useState("all");
-  const { tasks } = useTask();
+  const { loading, tasks } = useTask();
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
@@ -47,23 +48,29 @@ export default function DashboardPage() {
               </div>
 
               <TabsContent value="all" className="space-y-3 mt-0">
-                {tasks.map((task) => (
-                  <TaskCard key={task.id} task={task} />
-                ))}
+                {loading ? (
+                  <TaskListSkeleton taskLength={tasks?.length} />
+                ) : (
+                  tasks.map((t) => <TaskCard key={t.id} task={t} />)
+                )}
               </TabsContent>
               <TabsContent value="active" className="space-y-3 mt-0">
-                {tasks
-                  .filter((t) => !t.completed)
-                  .map((task) => (
-                    <TaskCard key={task.id} task={task} />
-                  ))}
+                {loading ? (
+                  <TaskListSkeleton taskLength={tasks?.length} />
+                ) : (
+                  tasks
+                    .filter((t) => !t.completed)
+                    .map((task) => <TaskCard key={task.id} task={task} />)
+                )}
               </TabsContent>
               <TabsContent value="completed" className="space-y-3 mt-0">
-                {tasks
-                  .filter((t) => t.completed)
-                  .map((task) => (
-                    <TaskCard key={task.id} task={task} />
-                  ))}
+                {loading ? (
+                  <TaskListSkeleton taskLength={tasks?.length} />
+                ) : (
+                  tasks
+                    .filter((t) => t.completed)
+                    .map((task) => <TaskCard key={task.id} task={task} />)
+                )}
               </TabsContent>
             </Tabs>
           </div>

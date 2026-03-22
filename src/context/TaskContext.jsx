@@ -1,16 +1,17 @@
 import {
   createContext,
-  useContext,
   useState,
   useEffect,
   useCallback,
   useMemo,
+  use,
 } from "react";
 import {
   addTask,
   completeTask,
   deleteTask,
   getTasks,
+  searchTasks,
   updateTask,
 } from "@/fakeApi";
 
@@ -29,10 +30,20 @@ export const TaskProvider = ({ children }) => {
     fetchTasks();
   }, []);
 
-  const handleAddTask = useCallback(async (taskData) => {
-    const newTask = await addTask(taskData);
-    setTasks((prevTasks) => [...prevTasks, newTask]);
+  const handleSearchTask = useCallback(async (query) => {
+    setLoading(true);
+    const data = await searchTasks(query);
+    setTasks(data);
+    setLoading(false);
   }, []);
+
+  const handleAddTask = useCallback(
+    async (taskData) => {
+      const newTask = await addTask(taskData);
+      setTasks((prevTasks) => [...prevTasks, newTask]);
+    },
+    [tasks],
+  );
 
   const handleUpdateTask = useCallback(async (taskId, taskData) => {
     const updatedTask = await updateTask(taskId, taskData);
@@ -61,6 +72,7 @@ export const TaskProvider = ({ children }) => {
       handleUpdateTask,
       handleDeleteTask,
       handleCompleteTask,
+      handleSearchTask,
     }),
     [
       tasks,
@@ -69,6 +81,7 @@ export const TaskProvider = ({ children }) => {
       handleUpdateTask,
       handleDeleteTask,
       handleCompleteTask,
+      handleSearchTask,
     ],
   );
 
@@ -76,7 +89,7 @@ export const TaskProvider = ({ children }) => {
 };
 
 export const useTask = () => {
-  const context = useContext(TaskContext);
+  const context = use(TaskContext);
 
   if (!context) {
     throw new Error("useTask must be used within a TaskProvider");
