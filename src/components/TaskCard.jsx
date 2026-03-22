@@ -23,7 +23,7 @@ export default function TaskCard({ task }) {
           <Checkbox
             checked={completed}
             onCheckedChange={handleComplete}
-            className={`mt-1 h-5 w-5 rounded-full ${completed ? "data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500" : " cursor-pointer"}`}
+            className={`mt-1 h-5 w-5 rounded-full ${completed ? "data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary" : " cursor-pointer"}`}
           />
           <div className="grid gap-1.5 flex-1">
             <div className="flex items-start justify-between gap-4">
@@ -79,7 +79,7 @@ export default function TaskCard({ task }) {
               {priority === "High" && (
                 <Badge
                   variant="destructive"
-                  className="bg-red-500/10 text-red-500 hover:bg-red-500/20 text-xs font-normal border-none"
+                  className="bg-destructive/10 text-destructive hover:bg-destructive/20 text-xs font-normal border-none"
                 >
                   High Priority
                 </Badge>
