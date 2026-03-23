@@ -1,40 +1,48 @@
 const defaultTasks = [
   {
     id: 1,
-    title: "Design the new landing page",
-    description:
-      "Create wireframes and high-fidelity mockups for the marketing site.",
+    title: "Implement Authentication Flow via OAuth2",
+    description: "Integrate Google and GitHub sign-in options, ensuring proper JWT token storage and secure routing.",
     priority: "High",
-    category: "Work",
-    dueDate: "Sat Mar 28 2026 00:00:00 GMT+0530 (India Standard Time)",
+    category: "Development",
+    dueDate: new Date(Date.now() + 86400000 * 2).toISOString(),
     completed: false,
   },
   {
     id: 2,
-    title: "Review pull requests",
-    description: "Go through the pending PRs in the frontend repository.",
+    title: "Review React Context Refactor PR",
+    description: "Go through the pending PR #142 in the frontend repository. Verify state management performance.",
     priority: "Medium",
-    category: "Development",
-    dueDate: "Sat Mar 28 2026 00:00:00 GMT+0530 (India Standard Time)",
+    category: "Code Review",
+    dueDate: new Date(Date.now() + 86400000).toISOString(),
     completed: true,
   },
   {
     id: 3,
-    title: "Buy groceries for the week",
-    description: "Milk, eggs, bread, and some fresh vegetables.",
-    priority: "Low",
-    category: "Personal",
-    dueDate: "Sat Mar 28 2026 00:00:00 GMT+0530 (India Standard Time)",
+    title: "Design Dashboard Architecture",
+    description: "Create system diagrams and define the core entity relationships for the upcoming v2.0 release overview.",
+    priority: "High",
+    category: "Architecture",
+    dueDate: new Date(Date.now() + 86400000 * 5).toISOString(),
     completed: false,
   },
   {
     id: 4,
-    title: "Schedule dentist appointment",
-    description: "Call Dr. Smith's office to set up a routine checkup.",
+    title: "Prepare Q3 Product Roadmap Presentation",
+    description: "Finalize the slide deck and define the key KPIs we'll be presenting to the stakeholders next week.",
     priority: "Medium",
-    category: "Health",
-    dueDate: "Sat Mar 28 2026 00:00:00 GMT+0530 (India Standard Time)",
+    category: "Planning",
+    dueDate: new Date(Date.now() + 86400000 * 7).toISOString(),
     completed: false,
+  },
+  {
+    id: 5,
+    title: "Fix Mobile Navigation Bug",
+    description: "Resolve the layout shift occurring on screens smaller than 768px in the top header component.",
+    priority: "Low",
+    category: "Bug Fix",
+    dueDate: new Date(Date.now() - 86400000).toISOString(),
+    completed: true,
   },
 ];
 
@@ -44,16 +52,18 @@ const saveTasksToLocal = (tasks) => {
 
 const loadTasksFromLocal = () => {
   const saved = localStorage.getItem("tasks");
-  return saved ? JSON.parse(saved) : [];
+  if (saved) return JSON.parse(saved);
+  saveTasksToLocal(defaultTasks);
+  return defaultTasks;
 };
 
 export const getTasks = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, 100));
   return loadTasksFromLocal();
 };
 
 export const searchTasks = async (q) => {
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, 100));
 
   const tasks = loadTasksFromLocal();
   if (!q || q.trim() === "") return tasks;
@@ -66,7 +76,7 @@ export const searchTasks = async (q) => {
 };
 
 export const addTask = async (newTask) => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  await new Promise((resolve) => setTimeout(resolve, 100));
 
   const tasks = loadTasksFromLocal();
   const taskWithId = { ...newTask, id: Date.now() };
@@ -88,7 +98,7 @@ export const updateTask = async (taskId, updatedData) => {
 };
 
 export const deleteTask = async (taskId) => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 100));
 
   const tasks = loadTasksFromLocal();
   const filteredTasks = tasks.filter((t) => t.id !== taskId);
