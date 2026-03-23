@@ -12,7 +12,7 @@ createRoot(document.getElementById("root")).render(
     <TaskProvider>
       <ThemeProvider defaultTheme="system" storageKey="shadcn-ui-theme">
         <main className="min-h-screen bg-background text-foreground">
-          <DashboardPage />
+          <RouterProvider router={routes} />
         </main>
       </ThemeProvider>
     </TaskProvider>
