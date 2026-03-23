@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -6,18 +5,29 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { FieldDescription, FieldGroup } from "@/components/ui/field";
+import { useForm } from "react-hook-form";
+import InputField from "./InputField";
+import { AuthButtonGroup } from "./AuthButtonGroup";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signUpSchema } from "@/Schemas";
 
-export function SignupForm({ ...props }) {
+export function SignupForm() {
+  const { control, handleSubmit } = useForm({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
-    <Card {...props}>
+    <Card>
       <CardHeader>
         <CardTitle>Create an account</CardTitle>
         <CardDescription>
@@ -25,50 +35,41 @@ export function SignupForm({ ...props }) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FieldGroup>
-            <Field>
-              <FieldLabel htmlFor="name">Full Name</FieldLabel>
-              <Input id="name" type="text" placeholder="John Doe" required />
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-              />
+            <InputField
+              control={control}
+              label="Full Name"
+              name="name"
+              type="text"
+              placeholder="John Doe"
+            />
+            <InputField
+              control={control}
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="m@example.com"
+            >
               <FieldDescription>
                 We&apos;ll use this to contact you. We will not share your email
                 with anyone else.
               </FieldDescription>
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Input id="password" type="password" required />
-              <FieldDescription>
-                Must be at least 8 characters long.
-              </FieldDescription>
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="confirm-password">
-                Confirm Password
-              </FieldLabel>
-              <Input id="confirm-password" type="password" required />
-              <FieldDescription>Please confirm your password.</FieldDescription>
-            </Field>
-            <FieldGroup>
-              <Field>
-                <Button type="submit">Create Account</Button>
-                <Button variant="outline" type="button">
-                  Sign up with Google
-                </Button>
-                <FieldDescription className="px-6 text-center">
-                  Already have an account? <Link to="/signin">Sign in</Link>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
+            </InputField>
+
+            <InputField
+              control={control}
+              label="Password"
+              name="password"
+              type="password"
+            />
+            <InputField
+              control={control}
+              label="Confirm Password"
+              name="confirmPassword"
+              type="password"
+            />
+            <AuthButtonGroup mode="signup" />
           </FieldGroup>
         </form>
       </CardContent>
