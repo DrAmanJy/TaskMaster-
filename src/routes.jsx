@@ -5,9 +5,8 @@ import SignupPage from "./pages/SignupPage.jsx";
 import DashboardPage from "@/pages/DashboardPage.jsx";
 
 const routes = createBrowserRouter([
-  { index: true, element: <App /> },
   { path: "/signin", element: <SigninPage /> },
   { path: "/signup", element: <SignupPage /> },
-  { path: "/dashboard", element: <DashboardPage /> },
+  { index: true, element: <DashboardPage /> },
 ]);
 export default routes;
