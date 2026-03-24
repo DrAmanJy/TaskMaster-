@@ -27,7 +27,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Input } from "@/components/ui/input.jsx";
 import { Textarea } from "@/components/ui/textarea.jsx";
 import { Field, FieldLabel, FieldError } from "@/components/ui/field.jsx";
 import { useTask } from "@/context/TaskContext";
@@ -58,7 +57,7 @@ const shema = z.object({
       iss.input === "" ? "Priority is required." : "Invalid priority.",
   }),
   completed: z.boolean().default(false),
-  dueDate: z
+  dueDate: z.coerce
     .date({
       error: (iss) => {
         return iss.input === null
